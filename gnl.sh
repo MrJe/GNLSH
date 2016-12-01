@@ -1,54 +1,37 @@
 #!/bin/bash
 
-t_hello()
+DEFAULT="\033[0m"
+BOLD="\033[1m"
+UNDERLINE="\033[4m"
+BLACK="\033[30m"
+RED="\033[31m"
+GREEN="\033[32m"
+YELLOW="\033[33m"
+BLUE="\033[34m"
+PURPLE="\033[35m"
+CYAN="\033[36m"
+WHITE="\033[37m"
+
+next()
 {
+	echo "###################################"
+	echo "############# N E X T #############"
+	echo "###################################"
+}
+
+t_btest()
+{
+	NAME=HelloWorld_25
 	clang -Wall -Wextra -Werror -I libft/includes -o mainb.o -c mainb.c
 	clang -o test_gnl mainb.o get_next_line.o -I libft/includes -L libft/ -lft
-	./test_gnl ./test/t_HelloWorld_25.txt > ./result/t_HelloWorld_25.output
-	echo "- - - E C H O - . O U T P U T - - -"
-	cat ./result/t_HelloWorld_25.output
-	echo "- - - - - - - D I F F - - - - - - -"
-	diff ./result/t_HelloWorld_25.output ./result/r_HelloWorld_25.txt
-	echo "###################################"
-	echo "############# N E X T #############"
-	echo "###################################"
-	./test_gnl ./test/t_alonglongline.txt > ./result/t_alonglongline.output
-	echo "- - - E C H O - . O U T P U T - - -"
-	cat ./result/t_alonglongline.output
-	echo "- - - - - - - D I F F - - - - - - -"
-	diff ./result/t_alonglongline.output ./result/r_alonglongline.txt
-	echo "###################################"
-	echo "############# N E X T #############"
-	echo "###################################"
-	./test_gnl ./test/t_empty.txt > ./result/t_empty.output
-	echo "- - - E C H O - . O U T P U T - - -"
-	cat ./result/t_empty.output
-	echo "- - - - - - - D I F F - - - - - - -"
-	diff ./result/t_empty.output ./result/r_empty.txt
-	echo "###################################"
-	echo "############# N E X T #############"
-	echo "###################################"
-	./test_gnl ./test/t_longlinenonl.txt > ./result/t_longlinenonl.output
-	echo "- - - E C H O - . O U T P U T - - -"
-	cat ./result/t_longlinenonl.output
-	echo "- - - - - - - D I F F - - - - - - -"
-	diff ./result/t_longlinenonl.output ./result/r_longlinenonl.txt
-	echo "###################################"
-	echo "############# N E X T #############"
-	echo "###################################"
-	./test_gnl ./test/t_longtext.txt > ./result/t_longtext.output
-	echo "- - - E C H O - . O U T P U T - - -"
-	cat ./result/t_longtext.output
-	echo "- - - - - - - D I F F - - - - - - -"
-	diff ./result/t_longtext.output ./result/r_longtext.txt
-	echo "###################################"
-	echo "############# N E X T #############"
-	echo "###################################"
-	./test_gnl ./test/t_loremipsumdolor.txt > ./result/t_loremipsumdolor.output
-	echo "- - - E C H O - . O U T P U T - - -"
-	cat ./result/t_loremipsumdolor.output
-	echo "- - - - - - - D I F F - - - - - - -"
-	diff ./result/t_loremipsumdolor.output ./result/r_lorempsumdolor.txt
+	./test_gnl ./test/t_${1}.txt > ./result/t_${1}.output
+	DIFF=$(diff ./result/t_${1}.output ./result/r_${1}.txt)
+	if [ "$DIFF" != "" ]
+	then
+		printf "${1}\033[20G ${RED}✗${DEFAULT}\n"
+	else
+		printf "${1}\033[20G ${GREEN}✓${DEFAULT}\n"
+	fi
 }
 
 t_1test()
@@ -73,6 +56,18 @@ t_2test()
 	diff ./result/2test.output ./result/r_2test.txt
 }
 
+btest()
+{
+	t_btest HelloWorld_25
+	t_btest alonglongline
+	t_btest empty
+	t_btest longlinenonl
+	t_btest loremipsumdolor
+	t_btest oneline
+	t_btest simple
+	t_btest text
+}
+
 if [ $# -eq 0 ]
 then
 	make -C libft/ fclean && make -C libft/
@@ -87,7 +82,7 @@ then
 	rm -f test_gnl
 elif [ $1 == "btest" ]
 then
-	t_hello
+	btest
 elif [ $1 == "1test" ]
 then
 	t_1test
@@ -96,13 +91,9 @@ then
 	t_2test
 elif [ $1 == "all" ]
 then
-	t_hello
-	echo "###################################"
-	echo "############# N E X T #############"
-	echo "###################################"
+	btest
+	next
 	t_1test
-	echo "###################################"
-	echo "############# N E X T #############"
-	echo "###################################"
+	next
 	t_2test
 fi
