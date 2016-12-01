@@ -1,0 +1,11 @@
+->Titre fichier<-
+-><-
+->Debut du texte sur la troisieme ligne:<-
+->exemple:	tabulation;<-
+->			deuxieme tabulation;<-
+-><-
+-><-
+->Double saut de ligne avant un long texte:<-
+->"Lorem ipsum dolor sit amet, mauris a a nisl eros, sed imperdiet, pellentesque diam, pellentesque malesuada hendrerit nibh malesuada. Et eros eu eu justo, dolor faucibus turpis nunc metus ornare. Arcu non sollicitudin maecenas quam, sem arcu, consequat iaculis. Vitae ac at pellentesque vel, nisl condimentum integer ut. Tortor velit tortor, ac erat ipsum amet tempus id. Ac fringilla vivamus viverra mi gravida et, sed leo et lectus nisl sunt et, quam est pretium amet cursus, vitae nulla, nullam turpis vitae platea. Neque consequat, posuere unde fermentum faucibus fermentum sed pellentesque, massa ut vel nisl, a ligula."<-
+-><-
+->End Of File<-

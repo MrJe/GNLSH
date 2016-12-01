@@ -1,0 +1,10 @@
+0->Un<-
+1->Deux<-
+0->Trois<-
+2->Quatre<-
+1->Cinq<-
+0->Six<-
+1->Sept<-
+0->Huit<-
+2->Neuf<-
+1->Dix<-

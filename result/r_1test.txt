@@ -1,0 +1,15 @@
+0->Un<-
+1->Deux<-
+2->Trois<-
+0->Quatre<-
+1->Cinq<-
+2->Six<-
+0->Sept<-
+1->Huit<-
+2->Neuf<-
+0->Dix<-
+1->Onze<-
+2->Douze<-
+0->Treize<-
+1->Quatorze<-
+2->Quinze<-
