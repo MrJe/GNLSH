@@ -81,7 +81,7 @@ if [ $# -eq 0 ]
 then
 	cp -R ../libft .
 	cp ../get_next_line.c .
-	cp ../get_next_line.h .
+	cp ../get_next_line.h libft/includes
 	make -C libft/ fclean && make -C libft/
 	clang -Wall -Wextra -Werror -I libft/includes -o get_next_line.o -c get_next_line.c
 	clang -Wall -Wextra -Werror -I libft/includes -o srcs/main.o -c srcs/main.c
