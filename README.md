@@ -17,7 +17,7 @@ Run the script for the first time
 ```bash
 bash gnl.sh
 ```
-Then tests your code with an option
+Then test your code with an option
 ```bash
 bash gnl.sh (option)
 ```
