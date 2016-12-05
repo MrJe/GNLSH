@@ -15,8 +15,8 @@ WHITE="\033[37m"
 
 ptitle()
 {
-	echo "${BBLUE}${1}${DEFAULT}"
-	echo "${BBLUE}---------------------${DEFAULT}"
+	printf "${BBLUE}${1}${DEFAULT}\n"
+	printf "${BBLUE}---------------------${DEFAULT}\n"
 }
 
 t_btest()
