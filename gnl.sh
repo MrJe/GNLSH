@@ -86,22 +86,23 @@ then
 	clang -Wall -Wextra -Werror -I libft/includes -o get_next_line.o -c get_next_line.c
 	clang -Wall -Wextra -Werror -I libft/includes -o srcs/main.o -c srcs/main.c
 	clang -o test_gnl srcs/main.o get_next_line.o -I libft/includes -L libft/ -lft
-elif [ $1 == "clean" ]
+elif [ $1 = "clean" ]
 then
 	make -C libft/ fclean
 	rm -f ./result/*.output
 	rm -f ./*.o
 	rm -f test_gnl
-elif [ $1 == "btest" ]
+        rm -f srcs/main*.o
+elif [ $1 = "btest" ]
 then
 	btest
-elif [ $1 == "1test" ]
+elif [ $1 = "1test" ]
 then
 	t_1test
-elif [ $1 == "2test" ]
+elif [ $1 = "2test" ]
 then
 	t_2test
-elif [ $1 == "all" ]
+elif [ $1 = "all" ]
 then
 	btest
 	t_1test
