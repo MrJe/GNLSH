@@ -43,5 +43,6 @@ Any suggestions or bugs reporting ?
 Contact jmichaud@student.42.fr
 
 ### Contributors
+- gvandeve : https://github.com/gvandeve42
 - jmichaud : https://github.com/MrJe
 - jtoty : https://github.com/jtoty
