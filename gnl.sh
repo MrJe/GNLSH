@@ -45,6 +45,7 @@ btest()
 	t_btest oneline
 	t_btest simple
 	t_btest text
+	t_btest bintest
 }
 
 t_1test()
