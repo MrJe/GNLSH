@@ -46,6 +46,7 @@ btest()
 	t_btest simple
 	t_btest text
 	t_btest bintest
+	t_btest zerononwl
 }
 
 t_1test()
