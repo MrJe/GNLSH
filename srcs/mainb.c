@@ -6,7 +6,7 @@
 /*   By: jmichaud <jmichaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 15:39:31 by jmichaud          #+#    #+#             */
-/*   Updated: 2017/06/22 16:06:50 by jmichaud         ###   ########.fr       */
+/*   Updated: 2017/06/22 16:25:49 by jmichaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,9 @@ int					main(int argc, const char *argv[])
 		for (i = 0; i < argc - 1; i++)
 			if ((fd[i] = open(argv[i + 1], O_RDONLY)) == -1)
 				return (return_error("open() failed\n", 1));
+		for (i = 0; i < argc - 1; i++)
+			if (!while_gnl(fd[i]))
+				return (1);
 		for (i = 0; i < argc - 1; i++)
 			if (!while_gnl(fd[i]))
 				return (1);

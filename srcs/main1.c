@@ -6,7 +6,7 @@
 /*   By: jmichaud <jmichaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 15:39:31 by jmichaud          #+#    #+#             */
-/*   Updated: 2017/06/22 15:59:21 by jmichaud         ###   ########.fr       */
+/*   Updated: 2017/06/22 16:27:20 by jmichaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ int					main(int argc, const char *argv[])
 		for (i = 0; i < argc - 1; i++)
 		{
 			if (!while_gnl(fd[i]))
+				return (1);
+			if (!one_gnl(fd[i], i))
 				return (1);
 			if (close(fd[i]) == -1)
 				return (return_error("close() failed\n", 1));

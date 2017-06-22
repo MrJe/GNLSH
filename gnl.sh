@@ -1,17 +1,9 @@
 #!/bin/bash
 
 DEFAULT="\033[0m"
-BOLD="\033[1m"
-UNDERLINE="\033[4m"
-BLACK="\033[30m"
 RED="\033[31m"
 GREEN="\033[32m"
-YELLOW="\033[33m"
 BBLUE="\033[1;34m"
-BLUE="\033[0;34m"
-PURPLE="\033[35m"
-CYAN="\033[36m"
-WHITE="\033[37m"
 
 ptitle()
 {
@@ -19,12 +11,8 @@ ptitle()
 	printf "${BBLUE}---------------------${DEFAULT}\n"
 }
 
-t_btest()
+get_diff()
 {
-	NAME=HelloWorld_25
-	clang -Wall -Wextra -Werror -I libft/includes -o srcs/mainb.o -c srcs/mainb.c
-	clang -o test_gnl srcs/mainb.o get_next_line.o -I libft/includes -L libft/ -lft
-	./test_gnl ./test/t_${1}.txt > ./result/t_${1}.output
 	DIFF=$(diff ./result/t_${1}.output ./result/r_${1}.txt)
 	if [ "$DIFF" != "" ]
 	then
@@ -32,6 +20,12 @@ t_btest()
 	else
 		printf "${1}\033[20G ${GREEN}✓${DEFAULT}\n"
 	fi
+}
+
+t_btest()
+{
+	./test_gnl ./test/t_${1}.txt > ./result/t_${1}.output
+	get_diff ${1}
 }
 
 btest()
@@ -47,6 +41,8 @@ btest()
 	t_btest text
 	t_btest bintest
 	t_btest zerononwl
+	./test_gnl test/21 test/22 test/23 > ./result/t_btmulti.output
+	get_diff btmulti
 }
 
 t_1test()
@@ -54,14 +50,10 @@ t_1test()
 	ptitle "Multi fd simple test"
 	clang -Wall -Wextra -Werror -I libft/includes -o srcs/main1.o -c srcs/main1.c
 	clang -o test_gnl srcs/main1.o get_next_line.o -I libft/includes -L libft/ -lft
-	./test_gnl ./test/11 ./test/12 ./test/13 > ./result/1test.output
-	DIFF=$(diff ./result/1test.output ./result/r_1test.txt)
-	if [ "$DIFF" != "" ]
-	then
-		printf "1test\033[20G ${RED}✗${DEFAULT}\n"
-	else
-		printf "1test\033[20G ${GREEN}✓${DEFAULT}\n"
-	fi
+	./test_gnl ./test/11 ./test/12 ./test/13 > ./result/t_1test.output
+	get_diff 1test
+	./test_gnl ./test/21 ./test/22 ./test/23 > ./result/t_12test.output
+	get_diff 12test
 }
 
 t_2test()
@@ -69,23 +61,20 @@ t_2test()
 	ptitle "Multi fd hard test"
 	clang -Wall -Wextra -Werror -I libft/includes -o srcs/main2.o -c srcs/main2.c
 	clang -o test_gnl srcs/main2.o get_next_line.o -I libft/includes -L libft/ -lft
-	./test_gnl ./test/21 ./test/22 ./test/23 > ./result/2test.output
-	DIFF=$(diff ./result/2test.output ./result/r_2test.txt)
-	if [ "$DIFF" != "" ]
-	then
-		printf "2test\033[20G ${RED}✗${DEFAULT}\n"
-	else
-		printf "2test\033[20G ${GREEN}✓${DEFAULT}\n"
-	fi
-	valgrind --leak-check=full --show-leak-kinds=all ./test_gnl test/21 test/22 test/23 | grep "blocks"
+	./test_gnl ./test/21 ./test/22 ./test/23 > ./result/t_2test.output
+	get_diff 2test
+	./test_gnl ./test/11 ./test/12 ./test/13 > ./result/t_21test.output
+	get_diff 21test
 }
 
 get_data()
 {
 	cp -R ../libft .
-	cp ../get_next_line.c .
-	cp ../get_next_line.h libft/includes
 	make -C libft/
+	cp ../get_next_line.c .
+	mkdir libft/includes 2> /dev/null
+	cp libft/*.h libft/includes 2> /dev/null
+	cp ../get_next_line.h libft/includes
 	clang -Wall -Wextra -Werror -I libft/includes -o get_next_line.o -c get_next_line.c
 	clang -Wall -Wextra -Werror -I libft/includes -o srcs/mainb.o -c srcs/mainb.c
 	clang -o test_gnl srcs/mainb.o get_next_line.o -I libft/includes -L libft/ -lft
