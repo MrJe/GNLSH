@@ -6,7 +6,7 @@
 /*   By: jmichaud <jmichaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 15:39:31 by jmichaud          #+#    #+#             */
-/*   Updated: 2016/11/28 16:56:28 by jmichaud         ###   ########.fr       */
+/*   Updated: 2017/06/22 16:06:50 by jmichaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,68 +18,49 @@
 
 int					get_next_line(const int fd, char **line);
 
+static int			return_error(const char *str, int ret)
+{
+	ft_putstr_fd(str, 2);
+	return (ret);
+}
+
+static int			while_gnl(int fd)
+{
+	int			ret;
+	char		*line;
+
+	while ((ret = get_next_line(fd, &line)))
+	{
+		if (ret == -1)
+			return (return_error("gnl() failed\n", 0));
+		ft_putstr("->");
+		ft_putstr(line);
+		ft_putendl("<-");
+		free(line);
+	}
+	return (1);
+}
+
 int					main(int argc, const char *argv[])
 {
 	int			i;
-	int			ret;
 	int			*fd;
-	char		*line;
 
-	if (argc == 1)
-	{
-		while ((ret = get_next_line(0, &line)) != 0 &&
-				ret != -1)
-		{
-			ft_putstr("->");
-			ft_putstr(line);
-			ft_putendl("<-");
-			free(line);
-		}
-		if (ret == -1)
-		{
-			ft_putstr_fd("Error\n", 2);
-			free(line);
+	if (argc == 1 && !while_gnl(0))
 			return (1);
-		}
-	}
 	else
 	{
-		fd = (int *)malloc(sizeof(*fd) * (argc - 1));
+		if (!(fd = (int *)malloc(sizeof(*fd) * (argc - 1))))
+			return (return_error("malloc() failed\n", 1));
 		for (i = 0; i < argc - 1; i++)
-		{
 			if ((fd[i] = open(argv[i + 1], O_RDONLY)) == -1)
-			{
-				ft_putstr_fd("open() failed\n", 2);
-				return (1);
-			}
-		}
-		i = 0;
-		while (i < argc - 1)
-		{
-			while ((ret = get_next_line(fd[i], &line)) != 0 &&
-					ret != -1)
-			{
-				ft_putstr("->");
-				ft_putstr(line);
-				ft_putendl("<-");
-				free(line);
-			}
-			if (ret == -1)
-			{
-				ft_putstr_fd("Error\n", 2);
-				free(line);
-				return (1);
-			}
-			i++;
-		}
+				return (return_error("open() failed\n", 1));
 		for (i = 0; i < argc - 1; i++)
-		{
-			if (close(fd[i]) == -1)
-			{
-				ft_putstr_fd("close() failed\n", 2);
+			if (!while_gnl(fd[i]))
 				return (1);
-			}
-		}
+		for (i = 0; i < argc - 1; i++)
+			if (close(fd[i]) == -1)
+				return (return_error("close() failed\n", 1));
 		free(fd);
 	}
 	return (0);
