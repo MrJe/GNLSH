@@ -6,7 +6,7 @@
 /*   By: jmichaud <jmichaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 15:39:31 by jmichaud          #+#    #+#             */
-/*   Updated: 2016/11/28 16:57:24 by jmichaud         ###   ########.fr       */
+/*   Updated: 2017/06/22 12:16:22 by jmichaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,26 @@
 
 int					get_next_line(const int fd, char **line);
 
+static int			while_gnl(int fd)
+{
+	int			ret;
+	char		*line;
+
+	while ((ret = get_next_line(fd, &line)))
+	{
+		if (ret == -1)
+		{
+			ft_putstr_fd("Error\n", 2);
+			return (0);
+		}
+		ft_putstr("->");
+		ft_putstr(line);
+		ft_putendl("<-");
+		free(line);
+	}
+	return (1);
+}
+
 int					main(int argc, const char *argv[])
 {
 	int			i;
@@ -25,23 +45,8 @@ int					main(int argc, const char *argv[])
 	int			*fd;
 	char		*line;
 
-	if (argc == 1)
-	{
-		while ((ret = get_next_line(0, &line)) != 0 &&
-				ret != -1)
-		{
-			ft_putstr("->");
-			ft_putstr(line);
-			ft_putendl("<-");
-			free(line);
-		}
-		if (ret == -1)
-		{
-			ft_putstr_fd("Error\n", 2);
-			free(line);
+	if (argc == 1 && !while_gnl(0))
 			return (1);
-		}
-	}
 	else
 	{
 		fd = (int *)malloc(sizeof(*fd) * (argc - 1));
@@ -126,6 +131,9 @@ int					main(int argc, const char *argv[])
 				return (1);
 			}
 		}
+		for (i = 0; i < argc - 1; i++)
+			if (!while_gnl(fd[i]))
+				return (1);
 		for (i = 0; i < argc - 1; i++)
 		{
 			if (close(fd[i]) == -1)

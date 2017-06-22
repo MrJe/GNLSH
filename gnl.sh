@@ -76,35 +76,45 @@ t_2test()
 	else
 		printf "2test\033[20G ${GREEN}✓${DEFAULT}\n"
 	fi
+	valgrind -q --leak-check=full --show-leak-kinds=all ./test_gnl test/21 test/22 test/23 | grep "blocks"
+}
+
+get_data()
+{
+	cp -R ../libft .
+	cp ../get_next_line.c .
+	cp ../get_next_line.h libft/includes
+	make -C libft/ > /dev/null
+	clang -Wall -Wextra -Werror -I libft/includes -o get_next_line.o -c get_next_line.c
+	clang -Wall -Wextra -Werror -I libft/includes -o srcs/main.o -c srcs/main.c
+	clang -o test_gnl srcs/main.o get_next_line.o -I libft/includes -L libft/ -lft
 }
 
 if [ $# -eq 0 ]
 then
-	cp -R ../libft .
-	cp ../get_next_line.c .
-	cp ../get_next_line.h libft/includes
-	make -C libft/ fclean && make -C libft/
-	clang -Wall -Wextra -Werror -I libft/includes -o get_next_line.o -c get_next_line.c
-	clang -Wall -Wextra -Werror -I libft/includes -o srcs/main.o -c srcs/main.c
-	clang -o test_gnl srcs/main.o get_next_line.o -I libft/includes -L libft/ -lft
+	get_data
 elif [ $1 = "clean" ]
 then
 	make -C libft/ fclean
 	rm -f ./result/*.output
 	rm -f ./*.o
 	rm -f test_gnl
-        rm -f srcs/main*.o
+	rm -f srcs/main*.o
 elif [ $1 = "btest" ]
 then
+	get_data
 	btest
 elif [ $1 = "1test" ]
 then
+	get_data
 	t_1test
 elif [ $1 = "2test" ]
 then
+	get_data
 	t_2test
 elif [ $1 = "all" ]
 then
+	get_data
 	btest
 	t_1test
 	t_2test
